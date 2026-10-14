@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050611">
+<title>우주 도감 | COSMOS ATLAS</title>
+<style>
+:root{color-scheme:dark;--bg:#050611;--panel:#0c1021;--text:#f6f7ff;--muted:#a5abc7;--blue:#4d8dff;--purple:#9a62ff;--line:rgba(153,169,255,.18)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 12% 8%,rgba(37,91,220,.19),transparent 34%),radial-gradient(ellipse at 88% 30%,rgba(126,46,214,.18),transparent 34%),radial-gradient(ellipse at 48% 95%,rgba(24,72,156,.14),transparent 36%),#050611}
+body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.3;background-image:radial-gradient(1px 1px at 10% 22%,#fff 45%,transparent 55%),radial-gradient(1px 1px at 75% 15%,#cbdcff 45%,transparent 55%),radial-gradient(1.5px 1.5px at 43% 63%,#fff 45%,transparent 55%),radial-gradient(1px 1px at 89% 77%,#b8c7ff 45%,transparent 55%),radial-gradient(1px 1px at 21% 84%,#fff 45%,transparent 55%);background-size:280px 240px,340px 290px,410px 360px,300px 330px,390px 310px}
+button,input{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+.wrap{width:min(1080px,100%);margin:auto;padding:0 22px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:24px 0;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:11px;border:0;background:none;color:var(--text);padding:0;text-align:left}
+.brand-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:13px;background:linear-gradient(140deg,rgba(66,133,255,.28),rgba(157,87,255,.25));border:1px solid rgba(131,157,255,.35);box-shadow:0 0 24px rgba(71,102,255,.18);font-size:20px}
+.brand strong{display:block;letter-spacing:.08em;font-size:15px}
+.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.2em;margin-top:2px}
+.header-tag{font-size:11px;letter-spacing:.14em;color:#b9c5ff;border:1px solid var(--line);border-radius:999px;padding:8px 11px}
+main{padding:48px 0 68px}
+.hero{text-align:center;padding:22px 0 35px}
+.eyebrow{font-size:11px;letter-spacing:.28em;color:#9fb7ff;text-transform:uppercase}
+h1{font-size:clamp(36px,7vw,66px);letter-spacing:-.055em;line-height:1.08;margin:16px 0 14px}
+h1 span{background:linear-gradient(100deg,#d9eaff 10%,#76aaff 48%,#c3a1ff 90%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 20px rgba(87,111,255,.2))}
+.hero p{color:var(--muted);line-height:1.8;margin:0 auto;max-width:510px;font-size:14px}
+.search-area{max-width:650px;margin:26px auto 0;position:relative;text-align:left}
+.search-box{display:flex;align-items:center;gap:12px;padding:0 17px;border:1px solid rgba(116,145,255,.42);background:rgba(10,14,31,.9);border-radius:16px;box-shadow:0 0 0 1px rgba(114,83,255,.06),0 0 28px rgba(47,101,255,.13);transition:.2s}
+.search-box:focus-within{border-color:#8d9cff;box-shadow:0 0 0 3px rgba(91,119,255,.13),0 0 34px rgba(105,77,255,.2)}
+.search-icon{font-size:19px;color:#a9baff}
+.search-box input{width:100%;min-width:0;background:transparent;border:0;outline:0;color:var(--text);padding:17px 0;font-size:15px}
+.search-box input::placeholder{color:#777f9f}
+.clear-btn{border:0;background:transparent;color:#b9c2e6;font-size:20px;padding:8px;display:none}
+.suggestions{display:none;position:relative;margin-top:12px;padding:17px;border:1px solid var(--line);border-radius:16px;background:rgba(9,12,27,.97);box-shadow:0 14px 45px rgba(0,0,0,.26)}
+.suggestions.open{display:block}
+.suggestions h3{font-size:13px;margin:0 0 12px;color:#f0f2ff}
+.suggestions p{font-size:12px;color:var(--muted);margin:0 0 12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid rgba(128,146,255,.23);background:rgba(43,53,101,.22);color:#dce3ff;border-radius:999px;padding:9px 12px;font-size:12px;min-height:38px}
+.chip:hover,.chip:focus-visible{border-color:#8d9cff;background:rgba(80,88,175,.28);outline:none}
+.results{display:none;margin-top:13px;border-top:1px solid var(--line);padding-top:13px}
+.results.show{display:block}
+.result{width:100%;display:flex;justify-content:space-between;align-items:center;text-align:left;border:0;border-radius:10px;padding:12px;background:transparent;color:var(--text)}
+.result:hover{background:rgba(82,100,190,.16)}
+.result small{color:var(--muted)}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:22px 0 17px}
+.section-head h2{font-size:19px;margin:0;letter-spacing:-.025em}
+.section-head p{margin:0;color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.card{position:relative;min-height:152px;overflow:hidden;text-align:left;padding:18px;border-radius:17px;border:1px solid rgba(132,150,255,.16);background:linear-gradient(135deg,rgba(18,25,53,.87),rgba(10,12,27,.9));color:var(--text);transition:transform .2s,border-color .2s,box-shadow .2s}
+.card:before{content:"";position:absolute;width:125px;height:125px;border-radius:50%;right:-48px;top:-52px;background:var(--glow,rgba(66,119,255,.27));filter:blur(26px);pointer-events:none}
+.card:hover,.card:focus-visible{transform:translateY(-3px);border-color:rgba(130,153,255,.52);box-shadow:0 8px 30px rgba(42,75,180,.13);outline:none}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card-icon{font-size:24px;filter:drop-shadow(0 0 12px rgba(119,133,255,.4))}
+.card-arrow{color:#8f9ac7;font-size:17px}
+.card h3{font-size:17px;margin:17px 0 6px}
+.card p{font-size:12px;line-height:1.65;color:var(--muted);margin:0;max-width:240px}
+.note{margin-top:20px;border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--muted);font-size:12px;line-height:1.75;background:rgba(9,12,26,.55)}
+.page{display:none;animation:fade .22s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:.2;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.back{border:1px solid var(--line);background:rgba(14,18,38,.7);color:#dfe5ff;border-radius:11px;padding:10px 14px;margin-bottom:24px;min-height:44px}
+.detail-hero{border:1px solid var(--line);border-radius:22px;padding:clamp(22px,5vw,42px);background:linear-gradient(130deg,rgba(24,37,78,.68),rgba(27,15,51,.6));box-shadow:inset 0 0 35px rgba(88,96,255,.05);position:relative;overflow:hidden}
+.detail-hero:after{content:"";position:absolute;right:-45px;top:-80px;width:230px;height:230px;border-radius:50%;background:rgba(86,90,255,.18);filter:blur(45px);pointer-events:none}
+.detail-icon{font-size:35px}
+.detail-hero h1{font-size:clamp(34px,6vw,52px);margin:14px 0 12px}
+.detail-hero p{color:#c3c9e2;line-height:1.9;max-width:720px;margin:0}
+.detail-label{font-size:11px;letter-spacing:.18em;color:#aebdff;text-transform:uppercase}
+.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-top:14px}
+.info-box{padding:19px;border:1px solid var(--line);border-radius:16px;background:rgba(12,16,33,.8)}
+.info-box h3{font-size:14px;margin:0 0 10px}
+.info-box p,.info-box li{font-size:13px;color:#c0c7e0;line-height:1.8}
+.info-box p{margin:0}
+.info-box ul{margin:0;padding-left:19px}
+footer{border-top:1px solid var(--line);padding:20px 0 28px;color:#7f87a8;font-size:11px;line-height:1.7}
+.empty{color:var(--muted);font-size:13px;padding:10px}
+@media(max-width:640px){.wrap{padding:0 16px}header{padding:18px 0}.header-tag{font-size:9px;padding:7px 9px}.brand strong{font-size:13px}main{padding:30px 0 48px}.hero{padding-top:12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{min-height:145px;padding:15px}.card h3{font-size:15px}.card p{font-size:11px}.section-head{align-items:start;flex-direction:column;gap:6px}.info-grid{grid-template-columns:1fr}.search-box input{font-size:16px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <button class="brand" id="brandHome" aria-label="우주 도감 홈으로">
+    <span class="brand-mark" aria-hidden="true">✦</span>
+    <span><strong>우주 도감</strong><small>COSMOS ATLAS</small></span>
+  </button>
+  <span class="header-tag">EXPLORE THE UNIVERSE</span>
+</header>
+<main>
+<section id="homePage" class="page active" aria-label="홈">
+  <div class="hero">
+    <div class="eyebrow">A LITTLE GUIDE TO THE COSMOS</div>
+    <h1>우주를 <span>탐험하다</span></h1>
+    <p>끝없이 펼쳐진 우주 속 천체들을 만나 보세요.<br>궁금한 천체를 찾거나 분류를 선택해 알아볼 수 있어요.</p>
+    <div class="search-area">
+      <label class="search-box" for="searchInput">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input id="searchInput" type="search" placeholder="어떤 천체가 궁금한가요?" autocomplete="off" aria-label="천체 검색">
+        <button class="clear-btn" id="clearSearch" type="button" aria-label="검색어 지우기">×</button>
+      </label>
+      <div class="suggestions" id="suggestions" aria-live="polite">
+        <h3>검색할 수 있는 것들</h3>
+        <p>분류 또는 천체 이름을 선택해 보세요.</p>
+        <div class="chips" id="searchChips"></div>
+        <div class="results" id="searchResults"></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-head"><h2>천체 탐색</h2><p>분류를 선택하면 자세한 설명을 볼 수 있습니다.</p></div>
+  <div class="grid" id="categoryGrid"></div>
+  <div class="note">✦ 참고: ‘별’과 ‘항성’은 천문학에서 거의 같은 뜻으로 사용됩니다. 태양도 항성의 한 종류입니다.</div>
+</section>
+<section id="detailPage" class="page" aria-label="천체 상세 정보">
+  <button class="back" id="backHome" type="button">← 홈으로 돌아가기</button>
+  <div id="detailContent"></div>
+</section>
+</main>
+<footer>우주 도감 · 천문학을 쉽게 알아보는 작은 안내서<br>설명은 학습을 위한 기초 정보이며, 세부 수치는 자료와 정의에 따라 달라질 수 있습니다.</footer>
+</div>
+<script>
+(function(){
+const categories = [
+ {id:"sun",name:"태양",icon:"☼",short:"태양계 중심에서 빛과 에너지를 내는 별",color:"rgba(255,170,74,.28)",definition:"태양은 태양계 중심에 있는 항성입니다. 내부에서 일어나는 핵융합으로 에너지를 만들고, 빛과 열을 우주 공간으로 내보냅니다.",features:["태양계 전체 질량의 대부분을 차지합니다.","지구를 비롯한 태양계 천체들은 태양의 중력 영향을 받습니다.","표면에서 보이는 광구의 온도는 약 5,500℃입니다."],examples:["광구","태양 흑점","태양 플레어"],kind:"태양"},
+ {id:"planet",name:"행성",icon:"🪐",short:"항성 주위를 공전하는 큰 천체",color:"rgba(71,131,255,.3)",definition:"태양계의 행성은 태양 주위를 공전하고, 자체 중력으로 거의 둥근 모양을 이루며, 궤도 주변의 다른 천체들을 대부분 정리한 천체입니다.",features:["태양계에는 행성이 8개 있습니다.","암석형 행성과 거대 행성 등으로 나눌 수 있습니다.","행성은 스스로 빛을 내기보다 별빛을 반사해 보입니다."],examples:["수성","금성","지구","화성","목성","토성","천왕성","해왕성"],kind:"행성"},
+ {id:"dwarf",name:"왜소행성",icon:"◌",short:"둥근 모양이지만 행성의 조건을 모두 충족하지 않는 천체",color:"rgba(158,95,255,.3)",definition:"왜소행성은 태양 주위를 공전하고 자체 중력으로 거의 둥근 모양을 이루지만, 궤도 주변을 지배적으로 정리하지 못한 천체입니다.",features:["행성과 구별되는 국제천문연맹의 분류입니다.","태양계 바깥쪽이나 소행성대 등에서 발견됩니다.","왜소행성은 위성을 가질 수도 있습니다."],examples:["명왕성","세레스","에리스","하우메아","마케마케"],kind:"왜소행성"},
+ {id:"asteroid",name:"소행성",icon:"✧",short:"주로 태양 주위를 도는 작은 암석질 천체",color:"rgba(75,177,255,.26)",definition:"소행성은 태양 주위를 공전하는 비교적 작은 천체입니다. 대부분 암석이나 금속 성분으로 이루어져 있으며, 많은 소행성이 화성과 목성 사이의 소행성대에 있습니다.",features:["크기와 모양이 다양합니다.","대부분 행성보다 훨씬 작습니다.","일부는 지구 가까이까지 접근하는 궤도를 가집니다."],examples:["베스타","팔라스","이토카와","베누"],kind:"소행성"},
+ {id:"comet",name:"혜성",icon:"☄",short:"얼음과 먼지 등을 포함하고 꼬리가 생길 수 있는 천체",color:"rgba(90,215,255,.26)",definition:"혜성은 얼음, 먼지, 암석 등을 포함한 천체입니다. 태양 가까이 다가가면 얼음이 기체로 변하면서 주변에 코마가 생기고, 태양풍과 복사압의 영향으로 꼬리가 나타날 수 있습니다.",features:["혜성의 꼬리는 태양 반대쪽을 향하는 경향이 있습니다.","모든 혜성이 언제나 뚜렷한 꼬리를 보이는 것은 아닙니다.","주기가 짧은 혜성과 긴 혜성이 있습니다."],examples:["핼리 혜성","헤일-밥 혜성","67P/추류모프-게라시멘코 혜성"],kind:"혜성"},
+ {id:"moon",name:"위성",icon:"☾",short:"행성이나 왜소행성 등 다른 천체 주위를 도는 천체",color:"rgba(171,145,255,.28)",definition:"자연위성은 행성이나 왜소행성 같은 다른 천체의 주위를 공전하는 천체입니다. 지구의 달이 대표적인 자연위성입니다.",features:["위성은 크기와 구성 성분이 다양합니다.","일부 위성에는 얼음 아래 바다가 있을 가능성이 있습니다.","인공위성은 사람이 만든 장치로, 자연위성과 구분됩니다."],examples:["달","유로파","가니메데","타이탄","포보스"],kind:"위성"},
+ {id:"star",name:"별",icon:"✦",short:"밤하늘에서 빛나는 천체를 일상적으로 부르는 말",color:"rgba(255,211,117,.25)",definition:"일상에서 ‘별’은 밤하늘에서 보이는 빛나는 천체를 가리킵니다. 천문학적으로는 보통 스스로 빛과 에너지를 내는 항성을 뜻하는 말로 사용됩니다.",features:["밤하늘의 점처럼 보이는 별 대부분은 아주 멀리 있는 항성입니다.","행성은 별빛을 반사해 밝게 보일 수 있습니다.","별의 색은 표면 온도와 관련이 있습니다."],examples:["시리우스","베텔게우스","태양"],kind:"별"},
+ {id:"stellar",name:"항성",icon:"✹",short:"중력으로 뭉쳐 있고 내부에서 에너지를 만들어 빛나는 천체",color:"rgba(142,106,255,.3)",definition:"항성은 중력으로 뭉쳐 있는 기체 플라스마 천체로, 대부분 중심부의 핵융합을 통해 에너지를 생성합니다. 태양이 지구에서 가장 가까운 항성입니다.",features:["질량에 따라 밝기와 수명 등이 달라집니다.","항성은 단독으로 있거나 쌍성·다중성계를 이룰 수 있습니다.","별과 항성은 일반적인 사용에서 거의 같은 의미입니다."],examples:["태양","시리우스 A","베텔게우스","프록시마 센타우리"],kind:"항성"},
+ {id:"celestial",name:"천체",icon:"◎",short:"우주 공간에 존재하는 물리적 대상의 총칭",color:"rgba(90,128,255,.28)",definition:"천체는 우주에 존재하는 자연적인 물리적 대상을 넓게 이르는 말입니다. 별, 행성, 위성, 소행성, 혜성, 은하 등이 천체에 포함됩니다.",features:["천체는 크기와 성분, 생성 과정이 매우 다양합니다.","천체를 관측하면 우주의 구조와 진화를 연구할 수 있습니다.","천체는 별이나 행성처럼 구체적인 분류를 포괄하는 말입니다."],examples:["태양","지구","달","혜성","은하"],kind:"천체"}
+];
+const objects = [
+ {name:"명왕성",category:"dwarf",description:"해왕성 바깥쪽의 카이퍼대에 있는 왜소행성입니다."},
+ {name:"세레스",category:"dwarf",description:"소행성대에 있는 왜소행성으로, 이 분류에 속하는 천체 중 소행성대에서 가장 큽니다."},
+ {name:"에리스",category:"dwarf",description:"해왕성 바깥쪽에 있는 큰 왜소행성입니다."},
+ {name:"수성",category:"planet",description:"태양에 가장 가까운 행성입니다."},
+ {name:"금성",category:"planet",description:"두꺼운 대기를 가진 태양계의 두 번째 행성입니다."},
+ {name:"지구",category:"planet",description:"현재까지 생명체가 존재한다고 확인된 유일한 행성입니다."},
+ {name:"화성",category:"planet",description:"붉은 표면으로 잘 알려진 태양계의 네 번째 행성입니다."},
+ {name:"목성",category:"planet",description:"태양계에서 가장 큰 행성입니다."},
+ {name:"토성",category:"planet",description:"얼음과 암석 조각으로 이루어진 뚜렷한 고리가 있는 거대 행성입니다."},
+ {name:"천왕성",category:"planet",description:"자전축이 크게 기울어진 얼음 거대 행성입니다."},
+ {name:"해왕성",category:"planet",description:"태양에서 가장 먼 여덟 번째 행성입니다."},
+ {name:"달",category:"moon",description:"지구의 자연위성입니다."},
+ {name:"유로파",category:"moon",description:"목성의 위성으로, 얼음 표면 아래에 바다가 있을 가능성이 연구되고 있습니다."},
+ {name:"가니메데",category:"moon",description:"태양계에서 가장 큰 자연위성입니다."},
+ {name:"타이탄",category:"moon",description:"토성의 큰 위성으로, 두꺼운 대기와 액체 메테인·에테인 호수가 있습니다."},
+ {name:"포보스",category:"moon",description:"화성의 두 자연위성 중 더 큰 위성입니다."},
+ {name:"핼리 혜성",category:"comet",description:"약 76년 주기로 태양 가까이 돌아오는 것으로 알려진 혜성입니다."},
+ {name:"베누",category:"asteroid",description:"지구 근접 소행성으로, 우주 탐사 임무의 대상이 되었습니다."},
+ {name:"베스타",category:"asteroid",description:"소행성대에서 큰 천체 중 하나인 소행성입니다."},
+ {name:"시리우스",category:"star",description:"밤하늘에서 가장 밝게 보이는 별이며, 두 별로 이루어진 항성계입니다."},
+ {name:"베텔게우스",category:"stellar",description:"오리온자리에서 붉게 보이는 거대한 항성입니다."},
+ {name:"프록시마 센타우리",category:"stellar",description:"태양에 가장 가까운 항성입니다."},
+ {name:"은하수",category:"celestial",description:"태양계가 속해 있는 은하를 하늘에서 띠처럼 본 모습입니다."}
+];
+const homePage=document.getElementById("homePage"),detailPage=document.getElementById("detailPage"),grid=document.getElementById("categoryGrid"),input=document.getElementById("searchInput"),suggestions=document.getElementById("suggestions"),chips=document.getElementById("searchChips"),results=document.getElementById("searchResults"),clear=document.getElementById("clearSearch");
+function renderCards(){grid.innerHTML=categories.map(c=>`<button type="button" class="card" data-category="${c.id}" style="--glow:${c.color}" aria-label="${c.name} 설명 보기"><span class="card-top"><span class="card-icon" aria-hidden="true">${c.icon}</span><span class="card-arrow" aria-hidden="true">↗</span></span><h3>${c.name}</h3><p>${c.short}</p></button>`).join("");grid.querySelectorAll("[data-category]").forEach(b=>b.addEventListener("click",()=>showCategory(b.dataset.category)))}
+function showHome(){detailPage.classList.remove("active");homePage.classList.add("active");input.value="";clear.style.display="none";suggestions.classList.remove("open");window.scrollTo({top:0,behavior:"smooth"})}
+function showCategory(id){const c=categories.find(x=>x.id===id);if(!c)return;homePage.classList.remove("active");detailPage.classList.add("active");suggestions.classList.remove("open");const related=objects.filter(o=>o.category===id);document.getElementById("detailContent").innerHTML=`<article><div class="detail-hero"><div class="detail-icon" aria-hidden="true">${c.icon}</div><div class="detail-label">COSMOS ATLAS · ${c.kind}</div><h1>${c.name}</h1><p>${c.definition}</p></div><div class="info-grid"><section class="info-box"><h3>주요 특징</h3><ul>${c.features.map(x=>`<li>${x}</li>`).join("")}</ul></section><section class="info-box"><h3>대표적인 예시</h3><ul>${c.examples.map(x=>`<li>${x}</li>`).join("")}</ul></section>${related.length?`<section class="info-box" style="grid-column:1/-1"><h3>관련 천체 찾아보기</h3><div class="chips">${related.map(o=>`<button class="chip" type="button" data-object="${o.name}">${o.name}</button>`).join("")}</div></section>`:""}</div></article>`;document.getElementById("detailContent").querySelectorAll("[data-object]").forEach(b=>b.addEventListener("click",()=>showObject(b.dataset.object)));window.scrollTo({top:0,behavior:"smooth"})}
+function showObject(name){const o=objects.find(x=>x.name===name);if(!o)return;const c=categories.find(x=>x.id===o.category);homePage.classList.remove("active");detailPage.classList.add("active");suggestions.classList.remove("open");document.getElementById("detailContent").innerHTML=`<article><div class="detail-hero"><div class="detail-icon" aria-hidden="true">${c.icon}</div><div class="detail-label">COSMOS ATLAS · ${c.name}</div><h1>${o.name}</h1><p>${o.description}</p></div><div class="info-grid"><section class="info-box"><h3>어떤 천체일까요?</h3><p>${o.name}은(는) ‘${c.name}’ 분류와 관련된 천체입니다. ${c.definition}</p></section><section class="info-box"><h3>분류 알아보기</h3><p>${c.name}: ${c.short}</p><p style="margin-top:12px"><button class="chip" id="relatedCategory" type="button">${c.name} 전체 설명 보기 ↗</button></p></section></div></article>`;document.getElementById("relatedCategory").addEventListener("click",()=>showCategory(c.id));window.scrollTo({top:0,behavior:"smooth"})}
+function openSearch(){suggestions.classList.add("open");renderSearch()}
+function renderChips(){chips.innerHTML=categories.map(c=>`<button class="chip" type="button" data-chip="${c.id}">${c.name}</button>`).join("");chips.querySelectorAll("[data-chip]").forEach(b=>b.addEventListener("click",()=>showCategory(b.dataset.chip)))}
+function renderSearch(){const q=input.value.trim().toLowerCase();clear.style.display=q?"block":"none";if(!q){chips.style.display="flex";results.classList.remove("show");results.innerHTML="";return}chips.style.display="none";const matchedObjects=objects.filter(o=>o.name.toLowerCase().includes(q)||o.description.toLowerCase().includes(q));const matchedCats=categories.filter(c=>c.name.toLowerCase().includes(q)||c.short.toLowerCase().includes(q));const seen=new Set();let rows=[];matchedCats.forEach(c=>{if(!seen.has("c"+c.id)){seen.add("c"+c.id);rows.push(`<button type="button" class="result" data-catresult="${c.id}"><span><strong>${c.name}</strong><br><small>천체 분류 · ${c.short}</small></span><span>↗</span></button>`)}});matchedObjects.forEach(o=>{if(!seen.has("o"+o.name)){seen.add("o"+o.name);const c=categories.find(x=>x.id===o.category);rows.push(`<button type="button" class="result" data-objectresult="${o.name}"><span><strong>${o.name}</strong><br><small>${c.name} · ${o.description}</small></span><span>↗</span></button>`)}});results.classList.add("show");results.innerHTML=rows.length?rows.join(""):'<div class="empty">검색 결과가 없습니다. 다른 이름으로 검색해 보세요.</div>';results.querySelectorAll("[data-catresult]").forEach(b=>b.addEventListener("click",()=>showCategory(b.dataset.catresult)));results.querySelectorAll("[data-objectresult]").forEach(b=>b.addEventListener("click",()=>showObject(b.dataset.objectresult)))}
+input.addEventListener("focus",openSearch);input.addEventListener("input",()=>{openSearch();renderSearch()});clear.addEventListener("click",()=>{input.value="";input.focus();renderSearch()});document.addEventListener("click",e=>{if(!e.target.closest(".search-area"))suggestions.classList.remove("open")});document.getElementById("brandHome").addEventListener("click",showHome);document.getElementById("backHome").addEventListener("click",showHome);document.addEventListener("keydown",e=>{if(e.key==="Escape"&&suggestions.classList.contains("open")){suggestions.classList.remove("open");input.blur()}});
+renderCards();renderChips();
+})();
+</script>
+</body>
+</html>
